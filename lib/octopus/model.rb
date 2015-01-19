@@ -176,7 +176,9 @@ module Octopus
         if should_use_normal_connection?
           connected_without_octopus?
         else
-          connection_proxy.connected?
+          ActiveRecord::Base.class_variable_defined?(:@@connection_proxy) &&
+            ActiveRecord::Base.class_variable_get(:@@connection_proxy) &&
+            connection_proxy.connected?
         end
       end
 
